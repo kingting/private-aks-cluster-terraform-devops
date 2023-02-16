@@ -2,9 +2,9 @@
 
 #Variables
 resourceGroupName="StorageAccountsRG"
-storageAccountName="baboterraform"
-containerName="tfstate"
-location="WestEurope"
+storageAccountName="ozhutstorageaccount"
+containerName="tfstate-container"
+location="australiaeast"
 sku="Standard_LRS"
 subscriptionName=$(az account show --query name --output tsv)
 
@@ -99,3 +99,4 @@ echo "--------------------------------------------------------------------------
 echo "storageAccountName: $storageAccountName"
 echo "containerName: $containerName"
 echo "access_key: $storageAccountKey"
+echo "export ARM_ACCESS_KEY=$storageAccountKey" > .env
