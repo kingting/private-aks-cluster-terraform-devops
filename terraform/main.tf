@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "2.60"
+      version = "=3.43.0"
     }
   }
 }
@@ -13,6 +13,10 @@ provider "azurerm" {
 
 terraform {
   backend "azurerm" {
+    resource_group_name = "StorageAccountsRG"
+    storage_account_name = "ozhutstorageaccount"
+    container_name = "tfstate-container"
+    key = "terraform.tfstate"
   }
 }
 

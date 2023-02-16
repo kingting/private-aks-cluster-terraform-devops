@@ -128,25 +128,24 @@ resource "azurerm_virtual_machine_extension" "custom_script" {
 
   settings = <<SETTINGS
     {
-      "fileUris": ["https://${var.script_storage_account_name}.blob.core.windows.net/${var.container_name}/${var.script_name}"],
-      "commandToExecute": "bash ${var.script_name}"
+      "script": "H4sIANOi7WMCA6VSTU/cMBC951cMAvGhyjESCCRuqO0BaQWHqmc0cWYTa/0RecbLUvXH4yS7EFBvvdjSm/fevBn7+Eg3NugGua+qY/jprLcBhaClxsSwhhdMwYaOKzJ9hLMDvL/1OsUgFFpgcmQEHmNhCyU0Yrd0Bn8PTMUkaibZGHhs9ntox07SE/ArC/mKcxsBB1EdCeS5rF5nbpewJRjQbLAj/kqdqzP3IbCgc7DJTenm4NwVH5aLWWNycqBWT9CLDHynNUtMxbLuYuwc4WC5NtHrUZ0CFaVKJTYy6cN9cj6b8H94lIiNo1p2cjG9gLMh7zT69uZaH4KfnlYApvexhW87qD/jfrtAdOakXTToJrM9vFxGT87D9uqfy1jzrxWoCGWVzyOv5v59soQvdWelz01mSmZ6bZmGG5nz4bG8XtJskh2EdbFRI66ulhPcXl5+ajCVar2AlnHv/+RE8H318BF4v/PVezTcYO1Z7yWTogh+UFN+3TTd+KvfALP5FqfhAgAA"
     }
   SETTINGS
 
-  protected_settings = <<PROTECTED_SETTINGS
-    {
-      "storageAccountName": "${var.script_storage_account_name}",
-      "storageAccountKey": "${var.script_storage_account_key}"
-    }
-  PROTECTED_SETTINGS
-
-  lifecycle {
-    ignore_changes = [
-      tags,
-      settings,
-      protected_settings
-    ]
-  }
+#  protected_settings = <<PROTECTED_SETTINGS
+#    {
+#      "storageAccountName": "${var.script_storage_account_name}",
+#      "storageAccountKey": "${var.script_storage_account_key}"
+#    }
+#  PROTECTED_SETTINGS
+#
+#  lifecycle {
+#    ignore_changes = [
+#      tags,
+#      settings,
+#      protected_settings
+#    ]
+#  }
 }
 
 resource "azurerm_virtual_machine_extension" "monitor_agent" {
@@ -210,9 +209,8 @@ resource "azurerm_monitor_diagnostic_setting" "nsg_settings" {
   target_resource_id         = azurerm_network_security_group.nsg.id
   log_analytics_workspace_id = var.log_analytics_workspace_resource_id
 
-  log {
+  enabled_log {
     category = "NetworkSecurityGroupEvent"
-    enabled  = true
 
     retention_policy {
       enabled = true
@@ -220,9 +218,8 @@ resource "azurerm_monitor_diagnostic_setting" "nsg_settings" {
     }
   }
 
- log {
+ enabled_log {
     category = "NetworkSecurityGroupRuleCounter"
-    enabled  = true
 
     retention_policy {
       enabled = true

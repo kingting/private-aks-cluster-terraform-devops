@@ -8,6 +8,11 @@ variable "sku_tier" {
   default     = "Standard"
   type        = string
 }
+variable "sku_name" {
+  description = "Specifies the firewall sku name.  Possible values are AZFW_hub and AZFW_VNet"
+  default     = "AZFW_VNet"
+  type        = string
+}
 
 variable "resource_group_name" {
   description = "Specifies the resource group name"

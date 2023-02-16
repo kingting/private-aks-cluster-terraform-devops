@@ -1,6 +1,6 @@
 variable "log_analytics_workspace_name" {
   description = "Specifies the name of the log analytics workspace"
-  default     = "BaboAksWorkspace"
+  default     = "OZhutAksWorkspace"
   type        = string
 }
 
@@ -23,13 +23,13 @@ variable "solution_plan_map" {
 
 variable "location" {
   description = "Specifies the location for the resource group and all the resources"
-  default     = "westeurope"
+  default     = "australiaeast"
   type        = string
 }
 
 variable "resource_group_name" {
   description = "Specifies the resource group name"
-  default     = "BaboRG"
+  default     = "OZhutRG"
   type        = string
 }
 
@@ -83,7 +83,7 @@ variable "vm_subnet_address_prefix" {
 
 variable "aks_cluster_name" {
   description = "(Required) Specifies the name of the AKS cluster."
-  default     = "BaboAks"
+  default     = "OZhutAks"
   type        = string
 }
 
@@ -129,7 +129,7 @@ variable "sku_tier" {
 
 variable "kubernetes_version" {
   description = "Specifies the AKS Kubernetes version"
-  default     = "1.21.1"
+  default     = "1.25.4"
   type        = string
 }
 
@@ -357,13 +357,13 @@ variable "additional_node_pool_node_count" {
 
 variable "domain_name_label" {
   description = "Specifies the domain name for the jumbox virtual machine"
-  default     = "babotestvm"
+  default     = "ozhuttestvm"
   type        = string
 }
 
 variable "firewall_name" {
   description = "Specifies the name of the Azure Firewall"
-  default     = "BaboFirewall"
+  default     = "OZhutFirewall"
   type        = string
 }
 
@@ -455,7 +455,7 @@ variable "storage_account_tier" {
 variable "acr_name" {
   description = "Specifies the name of the container registry"
   type        = string
-  default     = "BaboAcr"
+  default     = "OZhutAcr"
 }
 
 variable "acr_sku" {
@@ -490,7 +490,7 @@ variable "tags" {
 
 variable "bastion_host_name" {
   description = "(Optional) Specifies the name of the bastion host"
-  default     = "BaboBastionHost"
+  default     = "OZhutBastionHost"
   type        = string
 }
 
@@ -508,7 +508,7 @@ variable "storage_account_replication_type" {
 variable "key_vault_name" {
   description = "Specifies the name of the key vault."
   type        = string
-  default     = "BaboAksKeyVault"
+  default     = "OZhutAksKeyVault"
 }
 
 variable "key_vault_sku_name" {
@@ -594,21 +594,32 @@ variable "ssh_public_key" {
 variable "script_storage_account_name" {
   description = "(Required) Specifies the name of the storage account that contains the custom script."
   type        = string
+  default     = "1234scriptaccount"
 }
 
 variable "script_storage_account_key" {
   description = "(Required) Specifies the name of the storage account that contains the custom script."
   type        = string
+  default     = "script"
 }
 
 variable "container_name" {
   description = "(Required) Specifies the name of the container that contains the custom script."
   type        = string
-  default     = "scripts"
+  default     = "script-container"
 }
 
 variable "script_name" {
   description = "(Required) Specifies the name of the custom script."
   type        = string
   default     = "configure-jumpbox-vm.sh"
+}
+variable "key" {
+  description = "(Required) key or file to the terraform state."
+  type        = string
+  default     = "terraform.state"
+}
+variable "access_key" {
+  description = "(Required) access key to the terraform state."
+  type        = string
 }

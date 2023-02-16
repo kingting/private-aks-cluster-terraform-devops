@@ -15,7 +15,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pool" {
   mode                         = var.mode
   node_labels                  = var.node_labels
   node_taints                  = var.node_taints
-  availability_zones           = var.availability_zones
+#  availability_zones           = var.availability_zones
   vnet_subnet_id               = var.vnet_subnet_id
   enable_auto_scaling          = var.enable_auto_scaling
   enable_host_encryption       = var.enable_host_encryption

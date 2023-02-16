@@ -36,7 +36,7 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
     name                   = var.default_node_pool_name
     vm_size                = var.default_node_pool_vm_size
     vnet_subnet_id         = var.vnet_subnet_id
-    availability_zones     = var.default_node_pool_availability_zones
+#    availability_zones     = var.default_node_pool_availability_zones
     node_labels            = var.default_node_pool_node_labels
     node_taints            = var.default_node_pool_node_taints
     enable_auto_scaling    = var.default_node_pool_enable_auto_scaling
@@ -58,8 +58,8 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
   }
 
   identity {
-    type = "UserAssigned"
-    user_assigned_identity_id = azurerm_user_assigned_identity.aks_identity.id
+    type = "SystemAssigned"
+#    user_assigned_identity_id = azurerm_user_assigned_identity.aks_identity.id
   }
 
   network_profile {
@@ -70,42 +70,42 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
     service_cidr       = var.network_service_cidr
   }
 
-  addon_profile {
-    oms_agent {
-      enabled                    = var.oms_agent.enabled
-      log_analytics_workspace_id = coalesce(var.oms_agent.log_analytics_workspace_id, var.log_analytics_workspace_id)
-    }
-    ingress_application_gateway {
-      enabled                    = var.ingress_application_gateway.enabled          
-      gateway_id                 = var.ingress_application_gateway.gateway_id
-      subnet_cidr                = var.ingress_application_gateway.subnet_cidr
-      subnet_id                  = var.ingress_application_gateway.subnet_id
-    }
-    aci_connector_linux {
-      enabled                    = var.aci_connector_linux.enabled
-      subnet_name                = var.aci_connector_linux.subnet_name
-    }
-    azure_policy {
-      enabled                    = var.azure_policy.enabled
-    }
-    http_application_routing {
-      enabled                    = var.http_application_routing.enabled
-    }
-    kube_dashboard {
-      enabled                    = var.kube_dashboard.enabled
-    }
-  }
+#  addon_profile {
+#    oms_agent {
+#      enabled                    = var.oms_agent.enabled
+#      log_analytics_workspace_id = coalesce(var.oms_agent.log_analytics_workspace_id, var.log_analytics_workspace_id)
+#    }
+#    ingress_application_gateway {
+#      enabled                    = var.ingress_application_gateway.enabled          
+#      gateway_id                 = var.ingress_application_gateway.gateway_id
+#      subnet_cidr                = var.ingress_application_gateway.subnet_cidr
+#      subnet_id                  = var.ingress_application_gateway.subnet_id
+#    }
+#    aci_connector_linux {
+#      enabled                    = var.aci_connector_linux.enabled
+#      subnet_name                = var.aci_connector_linux.subnet_name
+#    }
+#    azure_policy {
+#      enabled                    = var.azure_policy.enabled
+#    }
+#    http_application_routing {
+#      enabled                    = var.http_application_routing.enabled
+#    }
+#    kube_dashboard {
+#      enabled                    = var.kube_dashboard.enabled
+#    }
+#  }
   
-  role_based_access_control {
-    enabled = var.role_based_access_control_enabled
-
-    azure_active_directory {
-      managed                = true
-      tenant_id              = var.tenant_id
-      admin_group_object_ids = var.admin_group_object_ids
-      azure_rbac_enabled     = var.azure_rbac_enabled
-    }
-  }
+#  role_based_access_control {
+#    enabled = var.role_based_access_control_enabled
+#
+#    azure_active_directory {
+#      managed                = true
+#      tenant_id              = var.tenant_id
+#      admin_group_object_ids = var.admin_group_object_ids
+#      azure_rbac_enabled     = var.azure_rbac_enabled
+#    }
+#  }
 
   lifecycle {
     ignore_changes = [
@@ -120,9 +120,8 @@ resource "azurerm_monitor_diagnostic_setting" "settings" {
   target_resource_id         = azurerm_kubernetes_cluster.aks_cluster.id
   log_analytics_workspace_id = var.log_analytics_workspace_id
 
-  log {
+  enabled_log {
     category = "kube-apiserver"
-    enabled  = true
 
     retention_policy {
       enabled = true  
@@ -130,9 +129,8 @@ resource "azurerm_monitor_diagnostic_setting" "settings" {
     }
   }
 
-  log {
+  enabled_log {
     category = "kube-audit"
-    enabled  = true
 
     retention_policy {
       enabled = true
@@ -140,9 +138,8 @@ resource "azurerm_monitor_diagnostic_setting" "settings" {
     }
   }
 
-  log {
+  enabled_log {
     category = "kube-audit-admin"
-    enabled  = true
 
     retention_policy {
       enabled = true
@@ -150,9 +147,8 @@ resource "azurerm_monitor_diagnostic_setting" "settings" {
     }
   }
 
-  log {
+  enabled_log {
     category = "kube-controller-manager"
-    enabled  = true
 
     retention_policy {
       enabled = true
@@ -160,9 +156,8 @@ resource "azurerm_monitor_diagnostic_setting" "settings" {
     }
   }
 
-  log {
+  enabled_log {
     category = "kube-scheduler"
-    enabled  = true
 
     retention_policy {
       enabled = true
@@ -170,9 +165,8 @@ resource "azurerm_monitor_diagnostic_setting" "settings" {
     }
   }
 
-  log {
+  enabled_log {
     category = "cluster-autoscaler"
-    enabled  = true
 
     retention_policy {
       enabled = true
@@ -180,9 +174,8 @@ resource "azurerm_monitor_diagnostic_setting" "settings" {
     }
   }
 
-  log {
+  enabled_log {
     category = "guard"
-    enabled  = true
 
     retention_policy {
       enabled = true
